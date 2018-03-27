@@ -1,18 +1,47 @@
-//console.log(document.scripts)
-document.write("<table>");
-document.write("<tr><td onclick='greek_alphabet_table_speak(this)'>Α</br>α</br>alpha</td><td onclick='greek_alphabet_table_speak(this)'>Β</br>β</br>beta</td><td onclick='greek_alphabet_table_speak(this)'>Γ</br>γ</br>gamma</td><td onclick='greek_alphabet_table_speak(this)'>Δ</br>δ</br>delta</td></tr>");
-document.write("<tr><td onclick='greek_alphabet_table_speak(this)'>Ε</br>ε</br>epsilon</td><td onclick='greek_alphabet_table_speak(this)'>Ζ</br>ζ</br>zeta</td><td onclick='greek_alphabet_table_speak(this)'>Η</br>η</br>eta</td><td onclick='greek_alphabet_table_speak(this)'>Θ</br>θ</br>theta</td></tr>");
-document.write("<tr><td onclick='greek_alphabet_table_speak(this)'>Ι</br>ι</br>iota</td><td onclick='greek_alphabet_table_speak(this)'>Κ</br>κ</br>kappa</td><td onclick='greek_alphabet_table_speak(this)'>Λ</br>λ</br>lambda</td><td onclick='greek_alphabet_table_speak(this)'>Μ</br>μ</br>mu</td></tr>");
-document.write("<tr><td onclick='greek_alphabet_table_speak(this)'>Ν</br>ν</br>nu</td><td onclick='greek_alphabet_table_speak(this)'>Ξ</br>ξ</br>xi</td><td onclick='greek_alphabet_table_speak(this)'>Ο</br>ο</br>omicron</td><td onclick='greek_alphabet_table_speak(this)'>Π</br>π</br>pi</td></tr>");
-document.write("<tr><td onclick='greek_alphabet_table_speak(this)'>Ρ</br>ρ</br>rho</td><td onclick='greek_alphabet_table_speak(this)'>Σ</br>σ</br>sigma</td><td onclick='greek_alphabet_table_speak(this)'>Τ</br>τ</br>tau</td><td onclick='greek_alphabet_table_speak(this)'>Υ</br>υ</br>upsilon</td></tr>");
-document.write("<tr><td onclick='greek_alphabet_table_speak(this)'>Φ</br>φ</br>phi</td><td onclick='greek_alphabet_table_speak(this)'>Χ</br>χ</br>chi</td><td onclick='greek_alphabet_table_speak(this)'>Ψ</br>ψ</br>psi</td><td onclick='greek_alphabet_table_speak(this)'>Ω</br>ω</br>omega</td></tr>");
-document.write("</table>");
+(function(){
+	//console.log(document.scripts)
+	var thisScript=document.scripts[document.scripts.length-1];
+	var col=parseInt(thisScript.dataset.col);
+	switch(col){
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 6:
+		case 8:
+		case 12:
+		case 24:
+			break;
+		default:
+			col=4;
+			break;
+	}
+	//console.log(col);
+	var alphabets=new Array("Α<br />α<br />alpha","Ζ<br />ζ<br />zeta","Λ<br />λ<br />lambda","Π<br />π<br />pi","Φ<br />φ<br />phi","Β<br />β<br />beta","Η<br />η<br />eta","Μ<br />μ<br />mu","Ρ<br />ρ<br />rho","Χ<br />χ<br />chi","Γ<br />γ<br />gamma","Θ<br />θ<br />theta","Ν<br />ν<br />nu","Σ<br />σ<br />sigma","Ψ<br />ψ<br />psi","Δ<br />δ<br />delta","Ι<br />ι<br />iota","Ξ<br />ξ<br />xi","Τ<br />τ<br />tau","Ω<br />ω<br />omega","Ε<br />ε<br />epsilon","Κ<br />κ<br />kappa","Ο<br />ο<br />omicron","Υ<br />υ<br />upsilon");
+	document.write("<table class='greek-alphabet-table'>");
+	for (var i = 1; i <= 24/col; i++) {
+		document.write("<tr class='greek-alphabet-tr'>")
+		for (var s = 1;s <= col;s++){
+			document.write("<td class='greek-alphabet-td' onclick='greek_alphabet_table_speak(this)' onmousedown='this.className=\"greek-alphabet-td-click\";' onmouseup='this.className=\"greek-alphabet-td\";'>"+alphabets[(i-1)*col+s-1]+"</td>")
+		}
+		document.write("</tr>");
+	}
+	document.write("</table>");
+	//挂载css
+	var css_href="/css/greek-alphabet-table.css"
+	var css=document.createElement('link');
+	css.rel="stylesheet";
+	css.type="text/css";
+	css.href=css_href;
+	document.head.appendChild(css);
+})();
+
 
 function greek_alphabet_table_speak(item){
 	//console.log(item);
 	//console.log(item.innerHTML.replace(new RegExp("<.?br>","g"),"_"));
 	var mp3_map;
-	var mp3_uri="";
+	var mp3_uri="https://raw.githubusercontent.com/ecator/greek-alphabet/master/audio/";
 	mp3_map=new Array();
 	mp3_map["Α_α_alpha"]="01_Α_α_alpha.mp3";
 	mp3_map["Β_β_beta"]="02_Β_β_beta.mp3";
@@ -38,11 +67,11 @@ function greek_alphabet_table_speak(item){
 	mp3_map["Χ_χ_chi"]="22_Χ_χ_chi.mp3";
 	mp3_map["Ψ_ψ_psi"]="23_Ψ_ψ_psi.mp3";
 	mp3_map["Ω_ω_omega"]="24_Ω_ω_omega.mp3";
-	mp3=mp3_map[item.innerHTML.replace(new RegExp("<.?br>","g"),"_")];
+	mp3=mp3_map[item.innerHTML.replace(new RegExp("<.*?br.*?>","g"),"_")];
 	//console.log(mp3);
 	var audio;
 	audio=document.createElement("audio");
-	audio.src=mp3_uri+"/audio/"+mp3;
+	audio.src=encodeURI(mp3_uri+mp3);
 	audio.play();
 	//console.log(audio);
 
