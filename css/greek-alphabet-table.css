@@ -1,0 +1,21 @@
+.greek-alphabet-table{
+	border-collapse:collapse;
+	border: 1px solid black;
+	text-align: center;
+	width: 100%;
+	background-color: #FFFAF0;
+}
+.greek-alphabet-td{
+	border: 1px solid black;
+	padding: 10px;
+}
+.greek-alphabet-td:hover{
+	cursor: pointer;
+	background-color: #FFFFE0;
+}
+.greek-alphabet-td-click{
+	border: 1px solid black;
+	padding: 10px;
+	cursor: pointer;
+	background-color: #FFC0CB;
+}
